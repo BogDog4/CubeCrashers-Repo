@@ -10,6 +10,7 @@ public class CubeController : MonoBehaviour
     public float speed = 10.0f;
     public float xRange = 20.0f;
     public float zRange = 10.0f;
+    public float recoilspeed = 2.0f;
 
     public GameObject projectileUp;
     public GameObject projectileDown;
@@ -25,11 +26,11 @@ public class CubeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Turn input into movement
+        //Turn input into movement(not inverted)
         horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector3.right * -horizontalInput * Time.deltaTime * speed);
+        transform.Translate(Vector3.right * horizontalInput * Time.deltaTime * speed);
         verticalInput = Input.GetAxis("Vertical");
-        transform.Translate(Vector3.forward * -verticalInput * Time.deltaTime * speed);
+        transform.Translate(Vector3.forward * verticalInput * Time.deltaTime * speed);
 
         //checking if the player’s position is within ranges
         {
@@ -44,21 +45,25 @@ public class CubeController : MonoBehaviour
             { transform.position = new Vector3(transform.position.x, transform.position.y, zRange); }
 
         }
-        //Projectile scripts
+        //Projectile scripts and pushback
         if (Input.GetKey(KeyCode.UpArrow))
         {
+            transform.Translate(Vector3.back * Time.deltaTime * recoilspeed);
             Instantiate(projectileUp, transform.position, projectileUp.transform.rotation);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
+            transform.Translate(Vector3.forward * Time.deltaTime * recoilspeed);
             Instantiate(projectileDown, transform.position, projectileDown.transform.rotation);
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
+            transform.Translate(Vector3.right * Time.deltaTime * recoilspeed);
             Instantiate(projectileLeft, transform.position, projectileLeft.transform.rotation);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
+            transform.Translate(Vector3.left * Time.deltaTime * recoilspeed);
             Instantiate(projectileRight, transform.position, projectileRight.transform.rotation);
         }
     }
