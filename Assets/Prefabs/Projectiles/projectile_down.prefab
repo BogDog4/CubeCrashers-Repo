@@ -73,3 +73,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5deb9e1261c406d46a0294ef388f4bdc, type: 3}
+--- !u!1 &2576102064980802941 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3811326964001816573, guid: 5deb9e1261c406d46a0294ef388f4bdc, type: 3}
+  m_PrefabInstance: {fileID: 1667645245349069440}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &-5530013076616359280
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2576102064980802941}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 116
+  m_CollisionDetection: 0
