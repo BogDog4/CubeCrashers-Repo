@@ -10,7 +10,7 @@ public class CubeController : MonoBehaviour
     public float speed = 10.0f;
     public float xRange = 20.0f;
     public float zRange = 10.0f;
-    public float recoilspeed = 2.0f;
+    public float recoilspeed = 200.0f;
 
     public bool shootinterval = true;
 
@@ -19,12 +19,18 @@ public class CubeController : MonoBehaviour
     public GameObject projectileLeft;
     public GameObject projectileRight;
 
+    //set the empty spawnoffset objects
+    public Transform projspawnerup;
+    public Transform projspawnerdown;
+    public Transform projspawnerleft;
+    public Transform projspawnerright;
+
     private Rigidbody rigidplayercube;
 
     // Start is called before the first frame update
     void Start()
     {
-        //tell it what rigid body is to fix the drifting issue
+        //define rigidbody
         rigidplayercube = GetComponent<Rigidbody>();
     }
 
@@ -37,66 +43,56 @@ public class CubeController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         transform.Translate(Vector3.forward * verticalInput * Time.deltaTime * speed);
 
+        //when im not imputting, DONT MOVE! (with rigidbody(
         if(Input.GetAxis("Horizontal") == 0 && Input.GetAxis("Vertical") == 0)
         {
             rigidplayercube.velocity = Vector3.zero;
         }
 
-        //checking if the player�s position is within ranges
-        /*{
-            if (transform.position.x < -xRange)
-            { transform.position = new Vector3(-xRange, transform.position.y, transform.position.z); }
-            if (transform.position.x > xRange)
-            { transform.position = new Vector3(xRange, transform.position.y, transform.position.z); }
 
-            if (transform.position.z < -zRange)
-            { transform.position = new Vector3(transform.position.x, transform.position.y, -zRange); }
-            if (transform.position.z > zRange)
-            { transform.position = new Vector3(transform.position.x, transform.position.y, zRange); }
-
-        }
-        */
-        //Projectile scripts and pushback
-        //cooldown established
+        //shoot only while key is pressed and shootinterval = true
         if (Input.GetKey(KeyCode.UpArrow)&&shootinterval)
-        {
+        {//shoot up
+            //recoil
             transform.Translate(Vector3.back * Time.deltaTime * recoilspeed);
-            Instantiate(projectileUp, transform.position, projectileUp.transform.rotation);
+            //spawn projectile at projspawner offset
+            Instantiate(projectileUp, projspawnerup.position, projectileUp.transform.rotation);
+            //dont allow player to shoot until shootinterval = true again
             shootinterval = false;
             StartCoroutine(cooldown());
         }
         if (Input.GetKey(KeyCode.DownArrow)&&shootinterval)
-        {
+        {//shoot down
             transform.Translate(Vector3.forward * Time.deltaTime * recoilspeed);
-            Instantiate(projectileDown, transform.position, projectileDown.transform.rotation);
+            Instantiate(projectileDown, projspawnerdown.position, projectileDown.transform.rotation);
             shootinterval = false;
             StartCoroutine(cooldown());
         }
         if (Input.GetKey(KeyCode.LeftArrow)&&shootinterval)
-        {
+        {//shoot left
             transform.Translate(Vector3.right * Time.deltaTime * recoilspeed);
-            Instantiate(projectileLeft, transform.position, projectileLeft.transform.rotation);
+            Instantiate(projectileLeft, projspawnerleft.position, projectileLeft.transform.rotation);
             shootinterval = false;
             StartCoroutine(cooldown());
         }
         if (Input.GetKey(KeyCode.RightArrow)&&shootinterval)
-        {
+        {//shoot right
             transform.Translate(Vector3.left * Time.deltaTime * recoilspeed);
-            Instantiate(projectileRight, transform.position, projectileRight.transform.rotation);
+            Instantiate(projectileRight, projspawnerright.position, projectileRight.transform.rotation);
             shootinterval = false;
             StartCoroutine(cooldown());
 
         }
         
         //i just made a function
-        //
+        //shootinterval cooldown
     }
     IEnumerator cooldown() 
     {
 yield return new WaitForSeconds(0.25f);
 shootinterval = true;
     }
-    //collision function
+    //collision function for player death
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("lava"))
@@ -105,5 +101,8 @@ shootinterval = true;
             Debug.Log("collided");
         }
         
+
     }
+
+    
 }

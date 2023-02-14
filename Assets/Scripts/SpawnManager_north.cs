@@ -25,7 +25,7 @@ public class SpawnManager_north : MonoBehaviour
     {
         int crasherIndex = Random.Range(0, crasherPrefabs.Length);
         //spawn within random range of x
-        Vector3 spawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 0, spawnPosZ);
+        Vector3 spawnPos = new Vector3(Random.Range(-spawnRangeX, spawnRangeX), 1, spawnPosZ);
         Instantiate(crasherPrefabs[crasherIndex], spawnPos, crasherPrefabs[crasherIndex].transform.rotation);
     }
 }
